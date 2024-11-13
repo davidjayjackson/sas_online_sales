@@ -23,3 +23,9 @@ data esales.import;
     format SalesDate date9.;  /* Format as date for readability */
 run;
 ```
+#### Display the column types and attributes for a dataset 
+```
+proc contents data=esales.import;
+    title "Column Types and Attributes for esales.import Dataset";
+run;
+```
