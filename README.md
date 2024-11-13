@@ -14,3 +14,12 @@ proc sql;
         total_sales = ABS(total_sales);
 quit;
 ```
+#### Convert dates to SAS format
+```
+/* Convert SalesDate to SAS date format in the esales.import dataset */
+data esales.import;
+    set esales.import;
+    SalesDate = input(SalesDate, mmddyy10.);  /* Convert character date to SAS date */
+    format SalesDate date9.;  /* Format as date for readability */
+run;
+```
