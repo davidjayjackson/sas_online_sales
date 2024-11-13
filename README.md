@@ -14,18 +14,21 @@ proc sql;
         total_sales = ABS(total_sales);
 quit;
 ```
-#### Convert dates to SAS format
+#### Convert dates to SAS format 2 examples
 ```
-/* Convert SalesDate to SAS date format in the esales.import dataset */
-data esales.import;
-    set esales.import;
-    SalesDate = input(SalesDate, mmddyy10.);  /* Convert character date to SAS date */
-    format SalesDate date9.;  /* Format as date for readability */
+proc sql;
+CREATE TABLE work.sales AS
+SELECT * FROM esales.import WHERE Quantity >0;
+quit;
+
+data work.sales_import;
+set work.sales;
+format SalesDate date9.; /* Format for readability as DDMMMYYYY */
 run;
-```
-#### Display the column types and attributes for a dataset 
-```
-proc contents data=esales.import;
-    title "Column Types and Attributes for esales.import Dataset";
-run;
+
+proc datasets nolist lib=esales ;
+  modify import;
+    format SalesDate date9.;
+  run;
+quit;
 ```
