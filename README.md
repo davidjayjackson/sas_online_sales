@@ -32,3 +32,25 @@ proc datasets nolist lib=esales ;
   run;
 quit;
 ```
+#### Add a trend line Regression (reg) or loess
+
+```
+ods graphics / reset width=6.4in height=4.8in imagemap;
+
+proc sort data=WORK.SUMMARY out=_SeriesPlotTaskData;
+	by SalesDate;
+run;
+
+proc sgplot data=_SeriesPlotTaskData;
+	series x=SalesDate y=avg_quantity /;
+\* regression: reg x=SalesDate y=avg_quantity; *\
+	 loess x=SalesDate y=avg_quantity/ smooth=0.75; 
+	xaxis grid;
+	yaxis grid;
+run;
+
+ods graphics / reset;
+
+proc datasets library=WORK noprint;
+	delete _SeriesPlotTaskData;
+```
